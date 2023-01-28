@@ -1,17 +1,18 @@
 <?php
 
-use App\Http\Controllers\Auth\User\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\User\ConfirmablePasswordController;
-use App\Http\Controllers\Auth\User\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\User\EmailVerificationPromptController;
-use App\Http\Controllers\Auth\User\NewPasswordController;
-use App\Http\Controllers\Auth\User\PasswordController;
-use App\Http\Controllers\Auth\User\PasswordResetLinkController;
-use App\Http\Controllers\Auth\User\RegisteredUserController;
-use App\Http\Controllers\Auth\User\VerifyEmailController;
+use App\Http\Controllers\Auth\Owner\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\Owner\ConfirmablePasswordController;
+use App\Http\Controllers\Auth\Owner\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\Owner\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\Owner\NewPasswordController;
+use App\Http\Controllers\Auth\Owner\PasswordController;
+use App\Http\Controllers\Auth\Owner\PasswordResetLinkController;
+use App\Http\Controllers\Auth\Owner\RegisteredUserController;
+use App\Http\Controllers\Auth\Owner\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Owner\ManufacturerController;
 
-Route::middleware('guest')->group(function () {
+Route::middleware('guest:owner')->prefix('owner')->name('owner.')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
 
@@ -35,7 +36,7 @@ Route::middleware('guest')->group(function () {
                 ->name('password.store');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:owner')->prefix('owner')->name('owner.')->group(function () {
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
                 ->name('verification.notice');
 
@@ -56,4 +57,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
+});
+
+Route::middleware('auth:owner')->prefix('owner')->name('owner.')->group(function () {
+    Route::get('manufacturer/index', [ManufacturerController::class, 'index'])->name('manufacturer.index');
+    Route::get('manufacturer/create', [ManufacturerController::class, 'create'])->name('manufacturer.create');
 });
