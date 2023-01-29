@@ -62,4 +62,6 @@ Route::middleware('auth:owner')->prefix('owner')->name('owner.')->group(function
 Route::middleware('auth:owner')->prefix('owner')->name('owner.')->group(function () {
     Route::get('manufacturer/index', [ManufacturerController::class, 'index'])->name('manufacturer.index');
     Route::get('manufacturer/create', [ManufacturerController::class, 'create'])->name('manufacturer.create');
+    Route::post('manufacturer/store', [ManufacturerController::class, 'store'])->name('manufacturer.store');
+    Route::get('manufacturer/show/{manufacturer}', [ManufacturerController::class, 'show'])->name('manufacturer.show');
 });

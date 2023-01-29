@@ -153,6 +153,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'manufacturer_name' => 'メーカー名',
+        'picture' => '画像',
+        'other' => '備考',
+    ],
 
 ];
