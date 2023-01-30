@@ -10,9 +10,9 @@ defineProps({
 })
 
 const form = reactive({
-    manufacturer_name: '',
-    picture: '',
-    other: ''
+    manufacturer_name: null,
+    picture: null,
+    other: null
 });
 
 const onCheckUpload = e => {
