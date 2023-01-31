@@ -31,7 +31,8 @@ class ManufacturerController extends Controller
         if (!empty($request->picture)) {
             $prefix = 'images/manufacturer/';
             $extension = $request->picture->extension();
-            $picture_name = time() . Str::random(16) . '.' . $extension;
+            // $picture_name = time() . Str::random(16) . '.' . $extension;
+            $picture_name = 'manufacturer';
         }
 
         try {
@@ -43,8 +44,10 @@ class ManufacturerController extends Controller
                 'other' => $request->other,
             ]);
 
+            // 画像が添付されている場合、S3へ保存
             if ($picture_name) {
-                Storage::disk('s3')->put($prefix . $picture_name, $request->picture);
+                // Storage::disk('s3')->putFileAs();
+                dd(Storage::disk('s3')->put($picture_name, $request->picture));
             }
 
             DB::commit();
@@ -57,6 +60,14 @@ class ManufacturerController extends Controller
     }
 
     public function show(Manufacturer $manufacturer) {
-        dd($manufacturer);
+        // $prefix = '/images/manufacturer/';
+        // $picture = Storage::disk('s3')->get($prefix . $manufacturer->picture);
+        $picture = Storage::disk('s3')->url('manufacturer/MDsO3lr9OMn7femdoEEmXNo92bMJYcn4vnVscwZG.jpg');
+        dd($picture);
+        
+        return Inertia::render('Owner/Manufacturer/Show',[
+            'manufacturer' => $manufacturer,
+            'picturer'
+        ]);
     }
 }

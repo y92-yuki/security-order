@@ -39,7 +39,9 @@ defineProps({
                                         </thead>
                                         <tbody>
                                             <tr v-for="manufacturer in manufacturers" :key="manufacturer.id">
-                                                <td class="px-4 py-3">{{ manufacturer.id }}</td>
+                                                <td class="px-4 py-3">
+                                                    <Link :href="route('owner.manufacturer.show', {manufacturer: manufacturer.id})">{{ manufacturer.id }}</Link>
+                                                </td>
                                                 <td class="px-4 py-3">{{ manufacturer.manufacturer_name }}</td>
                                                 <td class="px-4 py-3">{{ manufacturer.picture ? 'あり' : 'なし' }}</td>
                                             </tr>
