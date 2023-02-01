@@ -7,15 +7,18 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Manufacturer;
 use App\Http\Requests\ManufacturerRequest;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
+
+
 
 class ManufacturerController extends Controller
 {
     public function index() {
         $manufacturers = Manufacturer::select('id', 'manufacturer_name', 'picture', 'other')->get();
-        
+
         return Inertia::render('Owner/Manufacturer/Index',[
             'manufacturers' => $manufacturers,
         ]);
@@ -26,16 +29,15 @@ class ManufacturerController extends Controller
     }
 
     public function store(ManufacturerRequest $request) {
-        // 画像が添付されている場合、現在のタイムスタンプ + ランダム文字列 + 拡張子でDBにファイル名を保存する。
-        $picture_name = null;
-        if (!empty($request->picture)) {
-            $prefix = 'images/manufacturer/';
-            $extension = $request->picture->extension();
-            // $picture_name = time() . Str::random(16) . '.' . $extension;
-            $picture_name = 'manufacturer';
-        }
-
         try {
+
+            $picture_name = null;
+            if (!empty($request->picture)) {
+                $path = 'manufacturer';
+                // 画像が添付されている場合、S3へ保存
+                $picture_name = Storage::disk('s3')->put($path, $request->picture);
+            }
+        
             DB::beginTransaction();
 
             Manufacturer::create([
@@ -44,27 +46,34 @@ class ManufacturerController extends Controller
                 'other' => $request->other,
             ]);
 
-            // 画像が添付されている場合、S3へ保存
-            if ($picture_name) {
-                // Storage::disk('s3')->putFileAs();
-                dd(Storage::disk('s3')->put($picture_name, $request->picture));
-            }
-
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
         }
 
-
         return to_route('owner.manufacturer.index');
     }
 
     public function show(Manufacturer $manufacturer) {
-        // $prefix = '/images/manufacturer/';
-        // $picture = Storage::disk('s3')->get($prefix . $manufacturer->picture);
-        $picture = Storage::disk('s3')->url('manufacturer/MDsO3lr9OMn7femdoEEmXNo92bMJYcn4vnVscwZG.jpg');
-        dd($picture);
+        dd(Storage::disk('s3')->config);
+        $s3Client = new S3Client([
+            'credentials' => [
+                'key' => config('filesystems.disks.s3.key'),
+                'secret' => config('filesystems.disks.s3.secret'),
+            ],
+            'region' => config('filesystems.disks.s3.region'),
+            'version' => 'latest',
+        ]);
         
+        $cmd = $s3Client->getCommand('GetObject', [
+            'Bucket' => config('filesystems.disks.s3.bucket'),
+            'Key' => 'manufacturer/PjOSmKbO2b3oYA5NgrVTaMZrWQR33U1MhM19ccyb.jpg'
+        ]);
+        
+        $request = $s3Client->createPresignedRequest($cmd, '+1 minutes');
+        
+        $path = (string)$request->getUri();
+        dd($path);
         return Inertia::render('Owner/Manufacturer/Show',[
             'manufacturer' => $manufacturer,
             'picturer'
