@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('manufacturer_name');
             $table->string('picture')->nullable();
             $table->text('other')->nullable();
-            $table->softDeletes();
+            $table->boolean('is_display')->default(true);
             $table->timestamps();
         });
     }

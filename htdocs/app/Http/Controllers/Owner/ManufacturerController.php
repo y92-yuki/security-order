@@ -9,31 +9,37 @@ use App\Models\Manufacturer;
 use App\Http\Requests\ManufacturerRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Aws\S3\S3Client;
-use Aws\Exception\AwsException;
+use App\Services\S3Service;
 
 
 
 class ManufacturerController extends Controller
 {
+    /**
+     * メーカーの一覧画面表示
+     */
     public function index() {
-        $manufacturers = Manufacturer::select('id', 'manufacturer_name', 'picture', 'other')->get();
-
+        $manufacturers = Manufacturer::select('id', 'manufacturer_name', 'picture', 'other', 'is_display')->get();
         return Inertia::render('Owner/Manufacturer/Index',[
             'manufacturers' => $manufacturers,
         ]);
     }
 
+    /**
+     * メーカーの登録画面を表示
+     */
     public function create() {
         return Inertia::render('Owner/Manufacturer/Create');
     }
 
+    /**
+     * メーカーを登録
+     */
     public function store(ManufacturerRequest $request) {
         try {
-
             $picture_name = null;
             if (!empty($request->picture)) {
-                $path = 'manufacturer';
+                $path = 'owner/manufacturer';
                 // 画像が添付されている場合、S3へ保存
                 $picture_name = Storage::disk('s3')->put($path, $request->picture);
             }
@@ -54,29 +60,69 @@ class ManufacturerController extends Controller
         return to_route('owner.manufacturer.index');
     }
 
+    /**
+     * メーカー詳細
+     */
     public function show(Manufacturer $manufacturer) {
-        dd(Storage::disk('s3')->config);
-        $s3Client = new S3Client([
-            'credentials' => [
-                'key' => config('filesystems.disks.s3.key'),
-                'secret' => config('filesystems.disks.s3.secret'),
-            ],
-            'region' => config('filesystems.disks.s3.region'),
-            'version' => 'latest',
-        ]);
+        $path = $manufacturer->picture;
+        if (!empty($path)) {
+            $s3 = new S3Service();
+            $path = $s3->getObject($path);
+        }
         
-        $cmd = $s3Client->getCommand('GetObject', [
-            'Bucket' => config('filesystems.disks.s3.bucket'),
-            'Key' => 'manufacturer/PjOSmKbO2b3oYA5NgrVTaMZrWQR33U1MhM19ccyb.jpg'
-        ]);
-        
-        $request = $s3Client->createPresignedRequest($cmd, '+1 minutes');
-        
-        $path = (string)$request->getUri();
-        dd($path);
         return Inertia::render('Owner/Manufacturer/Show',[
             'manufacturer' => $manufacturer,
-            'picturer'
+            'picture' => $path,
         ]);
+    }
+
+    /**
+     * メーカー編集画面
+     */
+    public function edit(Manufacturer $manufacturer) {
+        return Inertia::render('Owner/Manufacturer/Edit', [
+            'manufacturer' => $manufacturer,
+        ]);
+    }
+
+    /**
+     * メーカー編集実行
+     */
+    public function update(ManufacturerRequest $request) {
+        $manufacturer = Manufacturer::findOrFail($request->id);
+        $manufacturer->manufacturer_name = $request->manufacturer_name;
+        $manufacturer->other = $request->other;
+
+        // 2 -> 画像を変更 or 追加
+        if($request->is_picture_modify === '2') {
+            // すでに画像が登録されている場合は登録済みの画像を削除する
+            if(!empty($manufacturer->picture)) {
+                Storage::disk('s3')->delete($manufacturer->picture);
+            }
+
+            $path = 'owner/manufacturer';
+            $manufacturer->picture = Storage::disk('s3')->put($path, $request->picture);
+        }
+
+        // 3 -> 画像を削除する
+        if($request->is_picture_modify === '3') {
+            Storage::disk('s3')->delete($manufacturer->picture);
+            $manufacturer->picture = null;
+        }
+
+        $manufacturer->save();
+        
+        return to_route('owner.manufacturer.index');
+    }
+
+    /**
+     * 表示・非表示の切り替え
+     */
+    public function toggleDisplay($id, $is_display) {
+        Manufacturer::findOrFail($id)->update([
+            'is_display' => $is_display === 'true' ? 1 : 0,
+        ]);
+        
+        return to_route('owner.manufacturer.index');
     }
 }

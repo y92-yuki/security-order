@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Manufacturer;
+use Illuminate\Validation\Rule;
 
 class ManufacturerRequest extends FormRequest
 {
@@ -24,10 +24,25 @@ class ManufacturerRequest extends FormRequest
      */
     public function rules()
     {
+
+
         return [
-            'manufacturer_name' => ['required', 'string', 'max:50', 'unique:'.Manufacturer::class],
-            'picture' => ['nullable', 'image', 'max:150000'],
-            'other' => ['nullable', 'string'],
+            'manufacturer_name' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('manufacturers')
+                ->ignore($this->id)
+            ],
+            'picture' => [
+                'nullable',
+                'image',
+                'max:150000'
+            ],
+            'other' => [
+                'nullable',
+                'string'
+            ],
         ];
     }
 }

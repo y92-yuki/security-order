@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\Owner\RegisteredUserController;
 use App\Http\Controllers\Auth\Owner\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Owner\ManufacturerController;
+use App\Models\Manufacturer;
 
 Route::middleware('guest:owner')->prefix('owner')->name('owner.')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -64,4 +65,7 @@ Route::middleware('auth:owner')->prefix('owner')->name('owner.')->group(function
     Route::get('manufacturer/create', [ManufacturerController::class, 'create'])->name('manufacturer.create');
     Route::post('manufacturer/store', [ManufacturerController::class, 'store'])->name('manufacturer.store');
     Route::get('manufacturer/show/{manufacturer}', [ManufacturerController::class, 'show'])->name('manufacturer.show');
+    Route::get('manufacturer/edit/{manufacturer}', [ManufacturerController::class, 'edit'])->name('manufacturer.edit');
+    Route::post('manufacturer/update',[ManufacturerController::class, 'update'])->name('manufacturer.update');
+    Route::delete('manufacturer/{id}/{is_display}', [ManufacturerController::class, 'toggleDisplay'])->name('manufacturer.toggle_display');
 });

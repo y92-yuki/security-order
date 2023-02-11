@@ -13,5 +13,6 @@ class Manufacturer extends Model
         'manufacturer_name',
         'picture',
         'other',
+        'is_display',
     ];
 }
