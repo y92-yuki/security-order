@@ -35,6 +35,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('owner.manufacturer.index')" :active="route().current('owner.manufacturer.index')">
                                     メーカー
                                 </NavLink>
+                                <NavLink :href="route('owner.category.index')" :active="route().current('owner.category.index')">
+                                    カテゴリー
+                                </NavLink>
                             </div>
                         </div>
 
@@ -120,6 +123,9 @@ const showingNavigationDropdown = ref(false);
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('owner.manufacturer.index')" :active="route().current('owner.manufacturer.index')">
                             メーカー
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('owner.category.index')" :active="route().current('owner.category.index')">
+                            カテゴリー
                         </ResponsiveNavLink>
                     </div>
 

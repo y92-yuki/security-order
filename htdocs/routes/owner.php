@@ -11,7 +11,7 @@ use App\Http\Controllers\Auth\Owner\RegisteredUserController;
 use App\Http\Controllers\Auth\Owner\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Owner\ManufacturerController;
-use App\Models\Manufacturer;
+use App\Http\Controllers\Owner\CategoryController;
 
 Route::middleware('guest:owner')->prefix('owner')->name('owner.')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -60,12 +60,24 @@ Route::middleware('auth:owner')->prefix('owner')->name('owner.')->group(function
                 ->name('logout');
 });
 
-Route::middleware('auth:owner')->prefix('owner')->name('owner.')->group(function () {
-    Route::get('manufacturer/index', [ManufacturerController::class, 'index'])->name('manufacturer.index');
-    Route::get('manufacturer/create', [ManufacturerController::class, 'create'])->name('manufacturer.create');
-    Route::post('manufacturer/store', [ManufacturerController::class, 'store'])->name('manufacturer.store');
-    Route::get('manufacturer/show/{manufacturer}', [ManufacturerController::class, 'show'])->name('manufacturer.show');
-    Route::get('manufacturer/edit/{manufacturer}', [ManufacturerController::class, 'edit'])->name('manufacturer.edit');
-    Route::post('manufacturer/update',[ManufacturerController::class, 'update'])->name('manufacturer.update');
-    Route::delete('manufacturer/{id}/{is_display}', [ManufacturerController::class, 'toggleDisplay'])->name('manufacturer.toggle_display');
+// メーカー管理機能
+Route::middleware('auth:owner')->prefix('owner')->name('owner.manufacturer.')->group(function () {
+    Route::get('manufacturer/index', [ManufacturerController::class, 'index'])->name('index');
+    Route::get('manufacturer/create', [ManufacturerController::class, 'create'])->name('create');
+    Route::post('manufacturer/store', [ManufacturerController::class, 'store'])->name('store');
+    Route::get('manufacturer/show/{manufacturer}', [ManufacturerController::class, 'show'])->name('show');
+    Route::get('manufacturer/edit/{manufacturer}', [ManufacturerController::class, 'edit'])->name('edit');
+    Route::post('manufacturer/update',[ManufacturerController::class, 'update'])->name('update');
+    Route::post('manufacturer/toggle_display', [ManufacturerController::class, 'toggleDisplay'])->name('toggle_display');
+});
+
+// カテゴリー管理機能
+Route::middleware('auth:owner')->prefix('owner')->name('owner.category.')->group(function () {
+    Route::get('category/index', [CategoryController::class, 'index'])->name('index');
+    Route::get('category/create', [CategoryController::class, 'create'])->name('create');
+    Route::post('category/store', [CategoryController::class, 'store'])->name('store');
+    Route::get('category/show/{category}', [CategoryController::class, 'show'])->name('show');
+    Route::get('category/edit/{category}', [CategoryController::class, 'edit'])->name('edit');
+    Route::post('category/update',[CategoryController::class, 'update'])->name('update');
+    Route::post('category/toggle_display', [CategoryController::class, 'toggleDisplay'])->name('toggle_display');
 });
