@@ -118,9 +118,9 @@ class ManufacturerController extends Controller
     /**
      * 表示・非表示の切り替え
      */
-    public function toggleDisplay($id, $is_display) {
-        Manufacturer::findOrFail($id)->update([
-            'is_display' => $is_display === 'true' ? 1 : 0,
+    public function toggleDisplay(Request $request) {
+        Manufacturer::findOrFail($request->id)->update([
+            'is_display' => $request->is_display,
         ]);
         
         return to_route('owner.manufacturer.index');

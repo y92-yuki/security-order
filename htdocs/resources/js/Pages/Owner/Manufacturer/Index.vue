@@ -24,9 +24,9 @@ const toggleDisplay = (key, id, is_display) => {
     }
 
     if(confirm('表示設定を変更しますか?')) {
-        router.delete(route('owner.manufacturer.toggle_display', displayAttr))
+        router.post(route('owner.manufacturer.toggle_display', displayAttr))
     } else {
-        manufacturers[key].is_display = !manufacturers[key].is_display;
+        manufacturers[key].is_display = !is_display;
     }
 }
 
