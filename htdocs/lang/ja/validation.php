@@ -14,7 +14,7 @@ return [
     */
 
     'accepted'             => ':attributeを承認してください。',
-    'accepted_if' => ':otherが:valueの場合、:attributeを承認してください。',
+    'accepted_if'          => ':otherが:valueの場合、:attributeを承認してください。',
     'active_url'           => ':attributeが有効なURLではありません。',
     'after'                => ':attributeには、:dateより後の日付を指定してください。',
     'after_or_equal'       => ':attributeには、:date以降の日付を指定してください。',
@@ -107,7 +107,7 @@ return [
     'required_without'     => ':valuesを指定しない場合は、:attributeを指定してください。',
     'required_without_all' => ':valuesのどれも指定しない場合は、:attributeを指定してください。',
     'prohibited'           => ':attributeは入力禁止です。',
-    'prohibited_if' => ':otherが:valueの場合、:attributeは入力禁止です。',
+    'prohibited_if'        => ':otherが:valueの場合、:attributeは入力禁止です。',
     'prohibited_unless'    => ':otherが:valueでない場合、:attributeは入力禁止です。',
     'prohibits'            => 'attributeは:otherの入力を禁じています。',
     'same'                 => ':attributeと:otherには同じ値を指定してください。',
@@ -155,8 +155,13 @@ return [
 
     'attributes' => [
         'manufacturer_name' => 'メーカー名',
-        'picture' => '画像',
-        'other' => '備考',
+        'picture'           => '画像',
+        'other'             => '備考',
+        'product_name'      => '商品名',
+        'manufacturer_id'   => 'メーカーID',
+        'category_id'       => 'カテゴリーID',
+        'memo'              => 'メモ',
+        'price'             => '価格',
     ],
 
 ];

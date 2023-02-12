@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('product_name');
-            $table->string('picture');
+            $table->string('picture')->nullable();
             $table->integer('category_id');
             $table->integer('manufacturer_id');
             $table->integer('price');
-            $table->boolean('is_selling')->comment('販売ステータス');
-            $table->text('memo');
+            $table->boolean('is_selling')->default(true)->comment('販売ステータス');
+            $table->text('memo')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\Owner\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Owner\ManufacturerController;
 use App\Http\Controllers\Owner\CategoryController;
+use App\Http\Controllers\Owner\ProductController;
 
 Route::middleware('guest:owner')->prefix('owner')->name('owner.')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -80,4 +81,15 @@ Route::middleware('auth:owner')->prefix('owner')->name('owner.category.')->group
     Route::get('category/edit/{category}', [CategoryController::class, 'edit'])->name('edit');
     Route::post('category/update',[CategoryController::class, 'update'])->name('update');
     Route::post('category/toggle_display', [CategoryController::class, 'toggleDisplay'])->name('toggle_display');
+});
+
+// 商品管理機能
+Route::middleware('auth:owner')->prefix('owner')->name('owner.product.')->group(function () {
+    Route::get('product/index', [ProductController::class, 'index'])->name('index');
+    Route::get('product/create', [ProductController::class, 'create'])->name('create');
+    Route::post('product/store', [ProductController::class, 'store'])->name('store');
+    Route::get('product/show/{product}', [ProductController::class, 'show'])->name('show');
+    Route::get('product/edit/{product}', [ProductController::class, 'edit'])->name('edit');
+    Route::post('product/update',[ProductController::class, 'update'])->name('update');
+    Route::post('product/toggle_display', [ProductController::class, 'toggleDisplay'])->name('toggle_display');
 });
