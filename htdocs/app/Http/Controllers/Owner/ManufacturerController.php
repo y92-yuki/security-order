@@ -10,8 +10,7 @@ use App\Http\Requests\ManufacturerRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Services\S3Service;
-
-
+use Exception;
 
 class ManufacturerController extends Controller
 {
@@ -67,7 +66,7 @@ class ManufacturerController extends Controller
         $path = $manufacturer->picture;
         if (!empty($path)) {
             $s3 = new S3Service();
-            $path = $s3->getObject($path);
+            $path = $s3->fetchObject($path);
         }
         
         return Inertia::render('Owner/Manufacturer/Show',[
@@ -105,7 +104,7 @@ class ManufacturerController extends Controller
         }
 
         // 3 -> 画像を削除する
-        if($request->is_picture_modify === '3') {
+        if($request->is_picture_modify === '3' && !empty($manufacturer->picture)) {
             Storage::disk('s3')->delete($manufacturer->picture);
             $manufacturer->picture = null;
         }
@@ -123,6 +122,23 @@ class ManufacturerController extends Controller
             'is_display' => $request->is_display,
         ]);
         
+        return to_route('owner.manufacturer.index');
+    }
+
+    public function destroy(Request $request) {
+        try {
+            DB::beginTransaction();
+
+            $manufacturer = Manufacturer::findOrFail($request->id);
+            $manufacturer->products()->delete();
+            $manufacturer->delete();
+
+            DB::commit();
+
+        } catch(Exception $e) {
+            DB::rollBack();
+        }
+
         return to_route('owner.manufacturer.index');
     }
 }

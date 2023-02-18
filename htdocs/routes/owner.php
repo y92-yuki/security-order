@@ -70,6 +70,7 @@ Route::middleware('auth:owner')->prefix('owner')->name('owner.manufacturer.')->g
     Route::get('manufacturer/edit/{manufacturer}', [ManufacturerController::class, 'edit'])->name('edit');
     Route::post('manufacturer/update',[ManufacturerController::class, 'update'])->name('update');
     Route::post('manufacturer/toggle_display', [ManufacturerController::class, 'toggleDisplay'])->name('toggle_display');
+    Route::post('manufacturer/destroy', [ManufacturerController::class, 'destroy'])->name('destroy');
 });
 
 // カテゴリー管理機能
@@ -81,6 +82,7 @@ Route::middleware('auth:owner')->prefix('owner')->name('owner.category.')->group
     Route::get('category/edit/{category}', [CategoryController::class, 'edit'])->name('edit');
     Route::post('category/update',[CategoryController::class, 'update'])->name('update');
     Route::post('category/toggle_display', [CategoryController::class, 'toggleDisplay'])->name('toggle_display');
+    Route::post('category/destroy', [CategoryController::class, 'destroy'])->name('destroy');
 });
 
 // 商品管理機能

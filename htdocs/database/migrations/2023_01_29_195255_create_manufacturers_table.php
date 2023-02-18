@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('picture')->nullable();
             $table->text('other')->nullable();
             $table->boolean('is_display')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

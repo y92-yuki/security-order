@@ -1,11 +1,29 @@
 <script setup>
 import OwnerAuthenticatedLayout from '@/Layouts/OwnerAuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 
 const props = defineProps({
     category: Object,
     picture: String
 })
+
+const deleteSubmit = () => {
+    const deleteCategory = {
+        id: props.category.id
+    }
+
+    const messageInputedUser = prompt('カテゴリーの削除を実行するには「完全に削除」と入力してください。');
+    if(messageInputedUser !== '完全に削除') {
+        return
+    }
+
+    const confirmMessage = 'カテゴリーを削除すると関連している商品も削除されます。\n 本当に削除しますか?';
+    if(!confirm(confirmMessage)) {
+        return
+    }
+
+    router.post(route('owner.category.destroy'), deleteCategory);
+}
 
 </script>
 
@@ -39,6 +57,11 @@ const props = defineProps({
                                     <Link as="button" :href="route('owner.category.index')" class="ml-1 tracking-widest text-white bg-lime-600 py-2 px-4 uppercase focus:outline-none text-xs hover:bg-lime-500 rounded-md font-semibold">
                                         戻る
                                     </Link>
+                                    <div class="text-right">
+                                        <button @click="deleteSubmit" class="ml-1 tracking-widest text-white bg-red-600 py-2 px-4 uppercase focus:outline-none text-xs hover:bg-red-500 rounded-md font-semibold">
+                                            削除
+                                        </button>
+                                    </div>
                                 </div>
                             </section>
                         </div>

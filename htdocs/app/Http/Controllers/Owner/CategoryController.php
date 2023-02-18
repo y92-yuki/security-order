@@ -8,6 +8,7 @@ use App\Models\Categorie;
 use Inertia\Inertia;
 use App\Http\Requests\CategoryRequest;
 use App\Services\S3Service;
+use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
@@ -65,7 +66,7 @@ class CategoryController extends Controller
         $path = $category->picture;
         if(!empty($path)) {
             $s3 = new S3Service();
-            $path = $s3->getObject($path);
+            $path = $s3->fetchObject($path);
         }
 
         return Inertia::render('Owner/Category/Show', [
@@ -106,7 +107,7 @@ class CategoryController extends Controller
             }
     
             // 3 -> 画像削除
-            if($request->is_picture_modify === '3') {
+            if($request->is_picture_modify === '3' && !empty($category->picture)) {
                 Storage::disk('s3')->delete($category->picture);
                 $category->picture = null;
             }
@@ -130,6 +131,22 @@ class CategoryController extends Controller
         Categorie::findOrFail($request->id)->update([
             'is_display' => $request->is_display,
         ]);
+
+        return to_route('owner.category.index');
+    }
+
+    public function destroy(Request $request) {
+        try {
+            DB::beginTransaction();
+
+            $category = Categorie::findOrFail($request->id);
+            $category->products()->delete();
+            $category->delete();
+
+            DB::commit();
+        } catch(Exception $e) {
+            DB::rollBack();
+        }
 
         return to_route('owner.category.index');
     }
