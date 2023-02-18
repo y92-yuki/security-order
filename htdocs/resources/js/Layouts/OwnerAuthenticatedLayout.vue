@@ -32,13 +32,13 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('owner.dashboard')" :active="route().current('owner.dashboard')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink :href="route('owner.manufacturer.index')" :active="route().current('owner.manufacturer.index')">
+                                <NavLink :href="route('owner.manufacturer.index')" :active="route().current('owner.manufacturer.*')">
                                     メーカー
                                 </NavLink>
-                                <NavLink :href="route('owner.category.index')" :active="route().current('owner.category.index')">
+                                <NavLink :href="route('owner.category.index')" :active="route().current('owner.category.*')">
                                     カテゴリー
                                 </NavLink>
-                                <NavLink :href="route('owner.product.index')" :active="route().current('owner.product.index')">
+                                <NavLink :href="route('owner.product.index')" :active="route().current('owner.product.*')">
                                     商品
                                 </NavLink>
                             </div>
@@ -124,13 +124,13 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('owner.dashboard')" :active="route().current('owner.dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('owner.manufacturer.index')" :active="route().current('owner.manufacturer.index')">
+                        <ResponsiveNavLink :href="route('owner.manufacturer.index')" :active="route().current('owner.manufacturer.*')">
                             メーカー
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('owner.category.index')" :active="route().current('owner.category.index')">
+                        <ResponsiveNavLink :href="route('owner.category.index')" :active="route().current('owner.category.*')">
                             カテゴリー
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('owner.product.index')" :active="route().current('owner.product.index')">
+                        <ResponsiveNavLink :href="route('owner.product.index')" :active="route().current('owner.product.*')">
                             商品
                         </ResponsiveNavLink>
                     </div>

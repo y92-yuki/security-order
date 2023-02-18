@@ -25,7 +25,7 @@ const toggleSelling = (key, id, is_selling) => {
     }
 
     if(confirm('販売ステータスを変更しますか?')) {
-        router.post(route('owner.product.toggle_display', sellingAttr))
+        router.post(route('owner.product.toggle_selling', sellingAttr))
     } else {
         products[key].is_selling = !is_selling;
     }
@@ -64,7 +64,7 @@ const toggleSelling = (key, id, is_selling) => {
                                         <tbody>
                                             <tr v-for="(product,key) in products" :key="product.id">
                                                 <td class="px-4 py-3">
-                                                    <Link :href="route('owner.product.show', {product: product.id})">
+                                                    <Link :href="route('owner.product.show', {id: product.id})">
                                                         {{ product.id }}
                                                     </Link>
                                                 </td>

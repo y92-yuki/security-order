@@ -32,7 +32,7 @@ class S3Service {
      * @param string $path 取得するオブジェクトのパス
      * @return string 署名付きURL
      */
-    public function getObject($path) {
+    public function fetchObject($path) {
         $cmd = $this->s3Client->getCommand('GetObject', [
             'Bucket' => $this->bucket,
             'Key' => $path

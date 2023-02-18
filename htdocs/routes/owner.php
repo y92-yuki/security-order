@@ -88,8 +88,9 @@ Route::middleware('auth:owner')->prefix('owner')->name('owner.product.')->group(
     Route::get('product/index', [ProductController::class, 'index'])->name('index');
     Route::get('product/create', [ProductController::class, 'create'])->name('create');
     Route::post('product/store', [ProductController::class, 'store'])->name('store');
-    Route::get('product/show/{product}', [ProductController::class, 'show'])->name('show');
-    Route::get('product/edit/{product}', [ProductController::class, 'edit'])->name('edit');
+    Route::get('product/show/{id}', [ProductController::class, 'show'])->name('show');
+    Route::get('product/edit/{id}', [ProductController::class, 'edit'])->name('edit');
     Route::post('product/update',[ProductController::class, 'update'])->name('update');
-    Route::post('product/toggle_display', [ProductController::class, 'toggleDisplay'])->name('toggle_display');
+    Route::post('product/toggle_selling', [ProductController::class, 'toggleSelling'])->name('toggle_selling');
+    Route::post('product/destroy', [ProductController::class, 'destroy'])->name('destroy');
 });
