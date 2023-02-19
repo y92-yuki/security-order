@@ -16,7 +16,7 @@ use App\Services\S3Service;
 class ProductController extends Controller
 {
     public function index() {
-        $products = Product::select('id', 'product_name', 'picture', 'price', 'is_selling')->get();
+        $products = Product::select('id', 'product_name', 'picture', 'price', 'is_selling')->paginate(50);
 
         return Inertia::render('Owner/Product/Index', [
             'products' => $products,

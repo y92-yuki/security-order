@@ -2,16 +2,17 @@
 import OwnerAuthenticatedLayout from '@/Layouts/OwnerAuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { reactive } from 'vue';
+import Pagination from '@/Components/Pagination.vue';
 
 const props = defineProps({
     products: Object
 })
 
 const products = [];
-for(let product of props.products) {
+for(let product of props.products.data) {
     products.push(reactive({
         id: product.id,
-        price: product.price,
+        price: product.price.toLocaleString(),
         name: product.product_name,
         picture: product.picture ? 'あり' : 'なし',
         is_selling: product.is_selling ? true : false
@@ -57,6 +58,7 @@ const toggleSelling = (key, id, is_selling) => {
                                         <tr>
                                             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">ID</th>
                                             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">商品名</th>
+                                            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">価格</th>
                                             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">画像</th>
                                             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 text-center">販売ステータス</th>
                                         </tr>
@@ -69,6 +71,7 @@ const toggleSelling = (key, id, is_selling) => {
                                                     </Link>
                                                 </td>
                                                 <td class="px-4 py-3">{{ product.name }}</td>
+                                                <td class="px-4 py-3">¥{{ product.price }}</td>
                                                 <td class="px-4 py-3">{{ product.picture}}</td>
                                                 <td class="px-4 py-3 text-center">
                                                     <input type="checkbox" name="is_selling" @change="toggleSelling(key, product.id, product.is_selling)" v-model="product.is_selling">
@@ -76,6 +79,9 @@ const toggleSelling = (key, id, is_selling) => {
                                             </tr>
                                         </tbody>
                                     </table>
+                                </div>
+                                <div class="flex justify-center">
+                                    <Pagination class="mt-6" :links="props.products.links" />
                                 </div>
                             </div>
                         </section>

@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ManufacturerSeeder::class);
         $this->call(CategorySeeder::class);
         
-        \App\Models\Product::factory()->count(50)->create();
+        \App\Models\Product::factory()->count(500)->create();
         // \App\Models\User::factory(10)->create();
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
