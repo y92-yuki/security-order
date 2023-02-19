@@ -17,10 +17,10 @@ class ProductController extends Controller
 {
     public function index(Request $request) {
         $products = Product::select('id', 'product_name', 'picture', 'price', 'is_selling')->paginate(50);
-
-        // ページネーションのページ番号
-        if(!empty($request->current_page)) {
-            $products->appends(['page' => $request->page]);
+        
+        // 不正なGETパラメーターの場合は一覧画面のトップへ
+        if($request->page > $products->lastPage()) {
+            return to_route('owner.product.index');
         }
 
         return Inertia::render('Owner/Product/Index', [
@@ -129,7 +129,8 @@ class ProductController extends Controller
         $product->save();
         $page = $request->page;
 
-        return to_route('owner.product.index', compact('page'));
+        // return to_route('owner.product.index', compact('page'));
+        return to_route('owner.product.index');
     }
 
     public function destroy(Request $request) {
