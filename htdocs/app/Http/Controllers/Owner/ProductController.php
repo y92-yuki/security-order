@@ -15,8 +15,13 @@ use App\Services\S3Service;
 
 class ProductController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
         $products = Product::select('id', 'product_name', 'picture', 'price', 'is_selling')->paginate(50);
+
+        // ページネーションのページ番号
+        if(!empty($request->current_page)) {
+            $products->appends(['page' => $request->page]);
+        }
 
         return Inertia::render('Owner/Product/Index', [
             'products' => $products,
@@ -122,8 +127,9 @@ class ProductController extends Controller
         $product = Product::findOrFail($request->id);
         $product->is_selling = $request->is_selling;
         $product->save();
+        $page = $request->page;
 
-        return to_route('owner.product.index');
+        return to_route('owner.product.index', compact('page'));
     }
 
     public function destroy(Request $request) {

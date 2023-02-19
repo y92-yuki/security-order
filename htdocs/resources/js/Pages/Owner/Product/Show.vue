@@ -1,7 +1,6 @@
 <script setup>
 import OwnerAuthenticatedLayout from '@/Layouts/OwnerAuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import nl2br from '@/nl2br';
 
 const props = defineProps({
     product: Object,
@@ -13,10 +12,6 @@ const deleteSubmit = () => {
         id: props.product.id
     }
     confirm('商品を削除しますか?') ? router.post(route('owner.product.destroy'), deletePost) : null;
-}
-
-if (props.product.memo) {
-    props.product.memo = nl2br(props.product.memo);
 }
 
 </script>
@@ -55,8 +50,14 @@ if (props.product.memo) {
                                         </div>
                                     </div>
                                     <div class="p-2 w-full">
+                                        <label for="product_price" class="leading-7 text-sm text-gray-600">価格</label>
+                                        <div id="product_price" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            ¥{{ product.price.toLocaleString() }}
+                                        </div>
+                                    </div>
+                                    <div class="p-2 w-full">
                                         <label for="memo" class="leading-7 text-sm text-gray-600">メモ</label>
-                                        <div v-html="props.product.memo" id="memo" name="memo" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></div>
+                                        <textarea id="memo" name="memo" v-model="props.product.memo" disabled class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" />
                                     </div>
                                     <div class="flex flex-col text-center w-full mb-8">
                                         <img :src="picture" class="w-1/3 mx-auto">

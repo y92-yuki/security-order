@@ -22,7 +22,8 @@ for(let product of props.products.data) {
 const toggleSelling = (key, id, is_selling) => {
     const sellingAttr = {
         id: id,
-        is_selling: is_selling
+        is_selling: is_selling,
+        page: props.products.current_page
     }
 
     if(confirm('販売ステータスを変更しますか?')) {

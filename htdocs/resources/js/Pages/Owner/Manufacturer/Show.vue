@@ -26,10 +26,6 @@ const deleteSubmit = () => {
     router.post(route('owner.manufacturer.destroy'), deleteManufacturer);
 }
 
-if (props.manufacturer.other) {
-    props.manufacturer.other = nl2br(props.manufacturer.other);
-}
-
 </script>
 
 <template>
@@ -55,7 +51,7 @@ if (props.manufacturer.other) {
                                     </div>
                                     <div class="p-2 w-full">
                                         <label for="other" class="leading-7 text-sm text-gray-600">備考</label>
-                                        <div v-html="props.manufacturer.other" id="other" name="other" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></div>
+                                        <textarea v-model="props.manufacturer.other" disabled id="other" name="other" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" />
                                     </div>
                                     <div class="flex flex-col text-center w-full mb-8">
                                         <img :src="picture" class="w-1/3 mx-auto">
