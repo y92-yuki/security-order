@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Owner\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+/**
+ * 商品一覧画面から検索
+ */
+Route::get('/test', [ProductController::class, 'search'])->name('api.product.search');

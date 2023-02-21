@@ -129,13 +129,25 @@ class ProductController extends Controller
         $product->save();
         $page = $request->page;
 
-        // return to_route('owner.product.index', compact('page'));
-        return to_route('owner.product.index');
+        return to_route('owner.product.index', compact('page'));
     }
 
     public function destroy(Request $request) {
         Product::findOrFail($request->id)->delete();
 
         return to_route('owner.product.index');
+    }
+
+    public function search(Request $request) {
+        $search = $request->search;
+
+        $products = Product::where('product_name', 'LIKE', '%' . $search . '%')
+        ->orWhereHas('manufacturer', function($query) use($search) {
+            $query->where('manufacturer_name', 'LIKE', '%' . $search . '%');
+        })->orWhereHas('category', function($query) use($search) {
+            $query->where('category_name', 'LIKE', '%' . $search . '%');
+        })->get();
+
+        return $products;
     }
 }
