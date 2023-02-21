@@ -78,9 +78,8 @@ const toggleSelling = (key, id, is_selling) => {
         if(indexScreenProduct) {
             indexScreenProduct.is_selling = !is_selling;
         }
-
         // モーダルウィンドウに表示されている商品
-        if(searchProducts.length) {
+        if(searchProducts.value.length) {
             searchProducts.value[key].is_selling = !is_selling;
         }
     }
