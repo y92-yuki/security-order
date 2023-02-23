@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Manufacturer;
+use App\Models\Product;
 use App\Http\Requests\ManufacturerRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -140,5 +141,13 @@ class ManufacturerController extends Controller
         }
 
         return to_route('owner.manufacturer.index');
+    }
+
+    /**
+     * 関連商品を表示
+     */
+    public function getRelationItemList(Request $request) {
+        $products = Product::where('manufacturer_id', '=', $request->id)->paginate(20);
+        return $products;
     }
 }

@@ -129,6 +129,13 @@ class ProductController extends Controller
         $product->save();
         $page = $request->page;
 
+        // メーカー詳細画面からのリクエストの場合
+        if($request->manufacturer_id) {
+            return to_route('owner.manufacturer.show', [
+                'manufacturer' => $request->manufacturer_id,
+            ]);
+        }
+
         return to_route('owner.product.index', compact('page'));
     }
 

@@ -69,7 +69,7 @@ Route::middleware('auth:owner')->prefix('owner')->name('owner.manufacturer.')->g
     Route::get('manufacturer/show/{manufacturer}', [ManufacturerController::class, 'show'])->name('show');
     Route::get('manufacturer/edit/{manufacturer}', [ManufacturerController::class, 'edit'])->name('edit');
     Route::post('manufacturer/update',[ManufacturerController::class, 'update'])->name('update');
-    Route::post('manufacturer/toggle_display', [ManufacturerController::class, 'toggleDisplay'])->name('toggle_display');
+    Route::post('manufacturer/toggle-display', [ManufacturerController::class, 'toggleDisplay'])->name('toggle_display');
     Route::post('manufacturer/destroy', [ManufacturerController::class, 'destroy'])->name('destroy');
 });
 
@@ -81,7 +81,7 @@ Route::middleware('auth:owner')->prefix('owner')->name('owner.category.')->group
     Route::get('category/show/{category}', [CategoryController::class, 'show'])->name('show');
     Route::get('category/edit/{category}', [CategoryController::class, 'edit'])->name('edit');
     Route::post('category/update',[CategoryController::class, 'update'])->name('update');
-    Route::post('category/toggle_display', [CategoryController::class, 'toggleDisplay'])->name('toggle_display');
+    Route::post('category/toggle-display', [CategoryController::class, 'toggleDisplay'])->name('toggle_display');
     Route::post('category/destroy', [CategoryController::class, 'destroy'])->name('destroy');
 });
 
@@ -93,6 +93,6 @@ Route::middleware('auth:owner')->prefix('owner')->name('owner.product.')->group(
     Route::get('product/show/{id}', [ProductController::class, 'show'])->name('show');
     Route::get('product/edit/{id}', [ProductController::class, 'edit'])->name('edit');
     Route::post('product/update',[ProductController::class, 'update'])->name('update');
-    Route::post('product/toggle_selling', [ProductController::class, 'toggleSelling'])->name('toggle_selling');
+    Route::post('product/toggle-selling', [ProductController::class, 'toggleSelling'])->name('toggle_selling');
     Route::post('product/destroy', [ProductController::class, 'destroy'])->name('destroy');
 });
