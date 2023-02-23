@@ -147,7 +147,7 @@ class ManufacturerController extends Controller
      * 関連商品を表示
      */
     public function getRelationItemList(Request $request) {
-        $products = Product::where('manufacturer_id', '=', $request->id)->paginate(20);
+        $products = Product::where('manufacturer_id', '=', $request->id)->get();
         return $products;
     }
 }

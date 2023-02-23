@@ -15,7 +15,7 @@ let products = [];
 const displayRelationItems = async () => {
     const response = await axios.get(route('api.manufacturer.get_relation_item_list', {id: props.manufacturer.id}));
     
-    for(let product of response.data.data) {
+    for(let product of response.data) {
         products.push(reactive({
             id        : product.id,
             name      : product.product_name,
