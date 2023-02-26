@@ -11,6 +11,7 @@ use App\Services\S3Service;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Models\Product;
 
 class CategoryController extends Controller
 {
@@ -149,5 +150,14 @@ class CategoryController extends Controller
         }
 
         return to_route('owner.category.index');
+    }
+
+    /**
+     * 関連商品を表示
+     */
+    public function getRelationItemList(Request $request) {
+
+        $products = Product::where('category_id', '=', $request->id)->get();
+        return $products;
     }
 }

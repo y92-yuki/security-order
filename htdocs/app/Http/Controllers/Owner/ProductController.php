@@ -136,6 +136,13 @@ class ProductController extends Controller
             ]);
         }
 
+        // カテゴリー詳細画面からのリクエストの場合
+        if($request->category_id) {
+            return to_route('owner.category.show', [
+                'category' => $request->category_id,
+            ]);
+        }
+
         return to_route('owner.product.index', compact('page'));
     }
 
