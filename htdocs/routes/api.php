@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Owner\ManufacturerController;
+use App\Http\Controllers\User\ShoppingController;
 use App\Http\Controllers\Owner\CategoryController;
 use App\Models\Categorie;
 
@@ -39,3 +40,5 @@ Route::get('manufacturer/get-relation-item-list', [ManufacturerController::class
  */
 Route::get('category/get-relation-item-list', [CategoryController::class, 'getRelationItemList'])
                                                                 ->name('api.category.get_relation_item_list');
+
+Route::get('shopping/product/', [ShoppingController::class, 'getDisplayProducts'])->name('api.shopping.product.index');

@@ -18,6 +18,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
-        "v3-infinite-loading": "^1.2.2"
+        "v3-infinite-loading": "^1.2.2",
+        "vue3-spinner": "^0.0.16"
     }
 }

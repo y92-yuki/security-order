@@ -11,7 +11,15 @@ class ShoppingController extends Controller
 {
     public function index() {
 
-        $products = Product::with('manufacturer', 'category')->get();
-        return Inertia::render('User/Index', compact('products'));
+        return Inertia::render('User/Index');
+    }
+
+    public function getDisplayProducts(Request $request) {
+        $limit = 50;
+        $offset = ($request->page - 1) * $limit;
+        $products = Product::with('manufacturer', 'category')
+                                ->offset($offset)->limit($limit)->get();
+
+        return $products;
     }
 }
