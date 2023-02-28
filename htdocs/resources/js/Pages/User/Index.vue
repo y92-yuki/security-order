@@ -7,7 +7,7 @@ import axios from 'axios';
 import {  DotLoader  } from "vue3-spinner";
 
 const products = ref([]);
-const page = 1;
+let page = 1;
 
 const load = async $state => {
   try {
@@ -28,7 +28,7 @@ const load = async $state => {
     } else {
       $state.loaded();
     }
-    
+
     page++;
   } catch (error) {
     $state.error();
