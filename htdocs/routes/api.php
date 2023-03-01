@@ -7,7 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Owner\ManufacturerController;
 use App\Http\Controllers\User\ShoppingController;
 use App\Http\Controllers\Owner\CategoryController;
-use App\Models\Categorie;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,4 +41,13 @@ Route::get('manufacturer/get-relation-item-list', [ManufacturerController::class
 Route::get('category/get-relation-item-list', [CategoryController::class, 'getRelationItemList'])
                                                                 ->name('api.category.get_relation_item_list');
 
-Route::get('shopping/product/', [ShoppingController::class, 'getDisplayProducts'])->name('api.shopping.product.index');
+/**
+ * ユーザー画面で一覧表示する商品を取得する
+ */
+Route::get('shopping/product/', function(Request $request) {
+    $limit = 50;
+    $offset = ($request->page - 1) * $limit;
+    $products = Product::with('manufacturer', 'category')->offset($offset)->limit($limit)->get();
+
+    return $products;
+})->name('api.shopping.product.index');

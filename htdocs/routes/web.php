@@ -19,9 +19,7 @@ use App\Http\Controllers\User\ShoppingController;
 
 Route::get('/', [ShoppingController::class, 'index'])->name('shopping.index');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/category', [ShoppingController::class, 'categoryIndex'])->name('category.index');
 
 Route::get('/owner/dashboard', function () {
     return Inertia::render('Owner/Dashboard');

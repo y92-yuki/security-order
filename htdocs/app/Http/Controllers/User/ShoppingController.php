@@ -10,16 +10,10 @@ use App\Models\Product;
 class ShoppingController extends Controller
 {
     public function index() {
-
         return Inertia::render('User/Index');
     }
 
-    public function getDisplayProducts(Request $request) {
-        $limit = 50;
-        $offset = ($request->page - 1) * $limit;
-        $products = Product::with('manufacturer', 'category')
-                                ->offset($offset)->limit($limit)->get();
-
-        return $products;
+    public function categoryIndex() {
+        return Inertia::render('User/Category');
     }
 }
