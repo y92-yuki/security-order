@@ -9,11 +9,13 @@ use App\Models\Product;
 
 class ShoppingController extends Controller
 {
-    public function index() {
-        return Inertia::render('User/Index');
-    }
+  public function index()
+  {
+    return Inertia::render('User/Index');
+  }
 
-    public function categoryIndex() {
-        return Inertia::render('User/Category');
-    }
+  public function categoryIndex()
+  {
+    return Inertia::render('User/Category');
+  }
 }

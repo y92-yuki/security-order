@@ -11,13 +11,13 @@ use Inertia\Response;
 
 class EmailVerificationPromptController extends Controller
 {
-    /**
-     * Display the email verification prompt.
-     */
-    public function __invoke(Request $request): RedirectResponse|Response
-    {
-        return $request->user()->hasVerifiedEmail()
-                    ? redirect()->intended(RouteServiceProvider::OWNER_HOME)
-                    : Inertia::render('Auth/Owner/VerifyEmail', ['status' => session('status')]);
-    }
+  /**
+   * Display the email verification prompt.
+   */
+  public function __invoke(Request $request): RedirectResponse|Response
+  {
+    return $request->user()->hasVerifiedEmail()
+      ? redirect()->intended(RouteServiceProvider::OWNER_HOME)
+      : Inertia::render('Auth/Owner/VerifyEmail', ['status' => session('status')]);
+  }
 }

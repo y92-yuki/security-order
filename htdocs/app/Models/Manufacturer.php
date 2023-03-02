@@ -9,17 +9,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Manufacturer extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+  use HasFactory;
+  use SoftDeletes;
 
-    protected $fillable = [
-        'manufacturer_name',
-        'picture',
-        'other',
-        'is_display',
-    ];
+  protected $fillable = [
+    'manufacturer_name',
+    'picture',
+    'other',
+    'is_display',
+  ];
 
-    public function products() {
-        return $this->hasMany(Product::class);
-    }
+  public function products()
+  {
+    return $this->hasMany(Product::class);
+  }
 }

@@ -16,37 +16,37 @@ use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
-    public function create(): Response
-    {
-        return Inertia::render('Auth/Owner/Register');
-    }
+  /**
+   * Display the registration view.
+   */
+  public function create(): Response
+  {
+    return Inertia::render('Auth/Owner/Register');
+  }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:'.Owner::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+  /**
+   * Handle an incoming registration request.
+   *
+   * @throws \Illuminate\Validation\ValidationException
+   */
+  public function store(Request $request): RedirectResponse
+  {
+    $request->validate([
+      'name' => 'required|string|max:255',
+      'email' => 'required|string|email|max:255|unique:' . Owner::class,
+      'password' => ['required', 'confirmed', Rules\Password::defaults()],
+    ]);
 
-        $user = Owner::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+    $user = Owner::create([
+      'name' => $request->name,
+      'email' => $request->email,
+      'password' => Hash::make($request->password),
+    ]);
 
-        event(new Registered($user));
+    event(new Registered($user));
 
-        Auth::guard('owner')->login($user);
+    Auth::guard('owner')->login($user);
 
-        return redirect(RouteServiceProvider::OWNER_HOME);
-    }
+    return redirect(RouteServiceProvider::OWNER_HOME);
+  }
 }

@@ -9,16 +9,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Categorie extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+  use HasFactory;
+  use SoftDeletes;
 
-    protected $fillable = [
-        'category_name',
-        'picture',
-        'is_display',
-    ];
+  protected $fillable = [
+    'category_name',
+    'picture',
+    'is_display',
+  ];
 
-    public function products() {
-        return $this->hasMany(Product::class, 'category_id');
-    }
+  public function products()
+  {
+    return $this->hasMany(Product::class, 'category_id');
+  }
 }
